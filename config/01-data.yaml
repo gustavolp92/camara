@@ -1,0 +1,5 @@
+raw:
+  deputados:
+    base_link: https://dadosabertos.camara.leg.br/api/v2/deputados?ordem=ASC&ordenarPor=nome
+    format: json
+    destination_path: data/raw

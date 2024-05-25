@@ -1,0 +1,15 @@
+# API
+- ajustar certificados
+pip install python-certifi-win32
+
+# links relevantes
+- API
+https://dadosabertos.camara.leg.br/swagger/api.html
+- git api
+https://github.com/CamaraDosDeputados/dados-abertos
+=========================================================
+
+# PIPELINES LEITURA
+- data config para despesas?
+
+# PIPELINES PROCESSAMENTO
