@@ -34,3 +34,13 @@ def process_despesas():
     despesas['ano_mes'] = despesas.apply(lambda row: f"{row['ano']}_{str(row['mes']).zfill(2)}", axis=1)
 
     despesas.to_parquet('data/cleansed/despesas.parquet') #TODO path in config
+
+
+
+def process_gold_table():
+    deputados = pd.read_parquet('data/cleansed/deputados.parquet')
+    despesas = pd.read_parquet('data/cleansed/despesas.parquet')
+
+    df = pd.merge(despesas, deputados, how='left', left_on='id_deputado', right_index=True)
+    print(f"Table shape: {df.shape}")
+    df.to_parquet('data/gold/master_table.parquet') #TODO path in config
