@@ -5,6 +5,7 @@ def process_deputados():
     deputados_raw = read_json(domain='raw', source_name='deputados')
     deputados = pd.json_normalize(deputados_raw['dados'])
     deputados = deputados.loc[deputados['siglaUf']=='ES'] # TEMP
+    deputados['id'] = deputados['id'].astype(str)
     deputados.set_index('id', inplace=True)
     deputados.to_parquet('data/cleansed/deputados.parquet') #TODO put in config
 
@@ -28,7 +29,7 @@ def process_despesas():
 
     despesas = pd.concat(dfs)    
     despesas['dataDocumento'] = pd.to_datetime(despesas['dataDocumento'])
-    despesas['id_deputado'] = despesas['id_deputado'].astype(int)
+    # despesas['id_deputado'] = despesas['id_deputado'].astype(int)
     despesas[['codDocumento', 'numDocumento', 'cnpjCpfFornecedor', 'codLote']] = despesas[['codDocumento', 'numDocumento', 'cnpjCpfFornecedor', 'codLote']].astype(str)
     despesas.sort_values('dataDocumento', inplace=True)
     despesas.reset_index(drop=True, inplace=True)
