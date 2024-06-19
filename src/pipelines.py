@@ -19,12 +19,13 @@ def pipeline_data_collection(update_tables, id_deputados_to_fetch=[],
 
 
 def pipeline_data_processing(update_tables):
-    from src.preprocessing import process_deputados, process_despesas, process_gold_table
+    from src.preprocessing import process_deputados, process_despesas, process_gold_table, process_gold_monthly_data
     if update_tables['deputados']:
         process_deputados()
     if update_tables['despesas']:
         process_despesas()
 
     process_gold_table()
+    process_gold_monthly_data()
 
 

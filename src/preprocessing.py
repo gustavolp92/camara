@@ -42,5 +42,19 @@ def process_gold_table():
     despesas = pd.read_parquet('data/cleansed/despesas.parquet')
 
     df = pd.merge(despesas, deputados, how='left', left_on='id_deputado', right_index=True)
+    df['Valor'] = df['valorLiquido'].clip(lower=0)
     print(f"Table shape: {df.shape}")
     df.to_parquet('data/gold/master_table.parquet') #TODO path in config
+
+
+
+def process_gold_monthly_data():
+    df = pd.read_parquet('data/gold/master_table.parquet')
+    
+    group_mes = df.groupby(['ano_mes', 'id_deputado'])
+    df_mes = group_mes[['Valor']].sum()
+    df_mes['Deputado'] = group_mes['nome'].max()
+    df_mes.reset_index(inplace=True)
+    
+    print(f"Table shape: {df.shape}")
+    df_mes.to_parquet('data/gold/monthly_data.parquet') #TODO path in config
