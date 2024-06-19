@@ -33,8 +33,8 @@ coberta pela franquia do contrato.
 - data config para despesas?
 
 # PIPELINES PROCESSAMENTO
-- colocar pipeline gold em src
 
 # APP
 - colocar checkbox para mes anterior ou mes atual?
 - transformar filtro deputados e tipos de despesa em multiselect, e fazer ajustes no codigo
+
