@@ -5,7 +5,7 @@ def pipeline_data_collection(update_tables, id_deputados_to_fetch=[],
                              start_date=None, end_date=None):
     from src.collectors import collect_data_from_api, collect_despesas_from_api
     from src.utils import get_month_list_in_interval
-    
+
     if update_tables['deputados']:
         collect_data_from_api('raw', 'deputados')
         
@@ -19,10 +19,13 @@ def pipeline_data_collection(update_tables, id_deputados_to_fetch=[],
 
 
 def pipeline_data_processing(update_tables):
-    from src.preprocessing import process_deputados, process_despesas
+    from src.preprocessing import process_deputados, process_despesas, process_gold_table, process_gold_monthly_data
     if update_tables['deputados']:
         process_deputados()
     if update_tables['despesas']:
         process_despesas()
+
+    process_gold_table()
+    process_gold_monthly_data()
 
 

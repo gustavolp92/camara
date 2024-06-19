@@ -9,7 +9,32 @@ https://dadosabertos.camara.leg.br/swagger/api.html
 https://github.com/CamaraDosDeputados/dados-abertos
 =========================================================
 
+
+# significado dos Campos
+- link
+https://dadosabertos.camara.leg.br/howtouse/2023-12-26-dados-ceap.html
+
+vlrDocumento
+Valor de face do documento comprobatório da despesa. Alguns tipos de despesa podem ter registros 
+com valores negativos: nos de passagens aéreas, por exemplo, isso ocorre quando são emitidos bilhetes de 
+compensação pela não-utilização de uma passagem.
+
+vlrGlosa
+Valor retido, isto é, não coberto pela CEAP, por qualquer razão (impedimento legal, insuficiência de comprovação, etc).
+
+vlrLiquido
+Valor da despesa efetivamente debitado da Cota Parlamentar, correspondente ao vlrDocumento menos o vlrGlosa. 
+Em despesas de Telefonia, é possível que este valor seja registrado como 0, significando que a despesa foi 
+coberta pela franquia do contrato.
+
+
+
 # PIPELINES LEITURA
 - data config para despesas?
 
 # PIPELINES PROCESSAMENTO
+
+# APP
+- colocar checkbox para mes anterior ou mes atual?
+- transformar filtro deputados e tipos de despesa em multiselect, e fazer ajustes no codigo
+
