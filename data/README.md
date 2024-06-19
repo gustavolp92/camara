@@ -1,0 +1,1 @@
+# Data goes here in folders called 'raw', 'cleansed' and 'gold'
