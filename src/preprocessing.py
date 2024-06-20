@@ -15,6 +15,7 @@ def process_deputados():
     file_name = 'deputados.parquet'
     ensure_folder_exists(folder_path)
 
+    print(f"Table 'cleansed/deputados' shape: {deputados.shape}")
     deputados.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config, function to save and ensure folder exists
 
 
@@ -49,6 +50,7 @@ def process_despesas():
     file_name = 'despesas.parquet'
     ensure_folder_exists(folder_path)
 
+    print(f"Table 'cleansed/despesas' shape: {despesas.shape}")
     despesas.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config, function to save and ensure folder exists
 
 
@@ -60,13 +62,13 @@ def process_gold_table():
 
     df = pd.merge(despesas, deputados, how='left', left_on='id_deputado', right_index=True)
     df['Valor'] = df['valorLiquido'].clip(lower=0)
-    print(f"Table 'master_table' shape: {df.shape}")
+    print(f"Table 'gold/master_table' shape: {df.shape}")
 
     from src.utils import ensure_folder_exists
     folder_path = os.path.join('data','gold')
     file_name = 'master_table.parquet'
     ensure_folder_exists(folder_path)
-    
+
     df.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config
 
 
@@ -80,7 +82,7 @@ def process_gold_monthly_data():
     df_mes['Deputado'] = group_mes['nome'].max()
     df_mes.reset_index(inplace=True)
     
-    print(f"Table 'monthly_data' shape: {df.shape}")
+    print(f"Table 'gold/monthly_data' shape: {df.shape}")
 
     from src.utils import ensure_folder_exists
     folder_path = os.path.join('data','gold')
