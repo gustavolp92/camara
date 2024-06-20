@@ -2,11 +2,22 @@ import pandas as pd
 
 def process_deputados():
     from src.io import read_json
+    import os
+
     deputados_raw = read_json(domain='raw', source_name='deputados')
     deputados = pd.json_normalize(deputados_raw['dados'])
     deputados = deputados.loc[deputados['siglaUf']=='ES'] # TEMP
+    deputados['id'] = deputados['id'].astype(str)
     deputados.set_index('id', inplace=True)
-    deputados.to_parquet('data/cleansed/deputados.parquet') #TODO put in config
+
+    from src.utils import ensure_folder_exists
+    folder_path = os.path.join('data','cleansed')
+    file_name = 'deputados.parquet'
+    ensure_folder_exists(folder_path)
+
+    print(f"Table 'cleansed/deputados' shape: {deputados.shape}")
+    deputados.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config, function to save and ensure folder exists
+
 
 
 
@@ -28,28 +39,42 @@ def process_despesas():
 
     despesas = pd.concat(dfs)    
     despesas['dataDocumento'] = pd.to_datetime(despesas['dataDocumento'])
-    despesas['id_deputado'] = despesas['id_deputado'].astype(int)
+    # despesas['id_deputado'] = despesas['id_deputado'].astype(int)
     despesas[['codDocumento', 'numDocumento', 'cnpjCpfFornecedor', 'codLote']] = despesas[['codDocumento', 'numDocumento', 'cnpjCpfFornecedor', 'codLote']].astype(str)
     despesas.sort_values('dataDocumento', inplace=True)
     despesas.reset_index(drop=True, inplace=True)
     despesas['ano_mes'] = despesas.apply(lambda row: f"{row['ano']}_{str(row['mes']).zfill(2)}", axis=1)
 
-    despesas.to_parquet('data/cleansed/despesas.parquet') #TODO path in config
+    from src.utils import ensure_folder_exists
+    folder_path = os.path.join('data','cleansed')
+    file_name = 'despesas.parquet'
+    ensure_folder_exists(folder_path)
+
+    print(f"Table 'cleansed/despesas' shape: {despesas.shape}")
+    despesas.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config, function to save and ensure folder exists
 
 
 
 def process_gold_table():
+    import os
     deputados = pd.read_parquet('data/cleansed/deputados.parquet')
     despesas = pd.read_parquet('data/cleansed/despesas.parquet')
 
     df = pd.merge(despesas, deputados, how='left', left_on='id_deputado', right_index=True)
     df['Valor'] = df['valorLiquido'].clip(lower=0)
-    print(f"Table 'master_table' shape: {df.shape}")
-    df.to_parquet('data/gold/master_table.parquet') #TODO path in config
+    print(f"Table 'gold/master_table' shape: {df.shape}")
+
+    from src.utils import ensure_folder_exists
+    folder_path = os.path.join('data','gold')
+    file_name = 'master_table.parquet'
+    ensure_folder_exists(folder_path)
+
+    df.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config
 
 
 
 def process_gold_monthly_data():
+    import os
     df = pd.read_parquet('data/gold/master_table.parquet')
     
     group_mes = df.groupby(['ano_mes', 'id_deputado'])
@@ -57,5 +82,11 @@ def process_gold_monthly_data():
     df_mes['Deputado'] = group_mes['nome'].max()
     df_mes.reset_index(inplace=True)
     
-    print(f"Table 'monthly_data' shape: {df.shape}")
-    df_mes.to_parquet('data/gold/monthly_data.parquet') #TODO path in config
+    print(f"Table 'gold/monthly_data' shape: {df.shape}")
+
+    from src.utils import ensure_folder_exists
+    folder_path = os.path.join('data','gold')
+    file_name = 'monthly_data.parquet'
+    ensure_folder_exists(folder_path)
+
+    df_mes.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config
