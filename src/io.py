@@ -31,8 +31,12 @@ def get_config(dot_env_path=None):
         tmp = tmp.split('.')[0]
         return tmp
     
-    load_dotenv(dot_env_path)  #get environment variables from '.env' file
-    config_path = f"{os.environ['PROJECT_CONFIG_PATH']}"
+    # load_dotenv(dot_env_path)  #get environment variables from '.env' file
+    # config_path = f"{os.environ['PROJECT_CONFIG_PATH']}"
+    import os
+    current_dir = os.path.dirname(os.path.realpath(__name__))
+    config_path = os.path.abspath(os.path.join(current_dir, 'config'))
+    print(config_path)
     file_paths = glob.glob(f"{config_path}/*")
     config = dict()
     files = []
@@ -63,6 +67,6 @@ def save_json(data, file_path):
 
     folder_path = file_path.rsplit('/', 1)[0]
     ensure_folder_exists(folder_path)
-    
+
     with open(file_path, "w") as json_file:
         json.dump(data, json_file)
