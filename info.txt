@@ -30,11 +30,15 @@ coberta pela franquia do contrato.
 
 
 # PIPELINES LEITURA
-- data config para despesas?
 
 # PIPELINES PROCESSAMENTO
+- ***** verificar database postgre heroku. salvar dados gold no banco
+
+# GITHUB ACTIONS
+- Mudar horario de schedule
 
 # APP
+- ver como subir app no streamlit. ler dados gold de banco
 - colocar checkbox para mes anterior ou mes atual?
 - transformar filtro deputados e tipos de despesa em multiselect, e fazer ajustes no codigo
 
