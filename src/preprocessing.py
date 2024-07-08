@@ -82,7 +82,7 @@ def process_gold_monthly_data():
     df_mes['Deputado'] = group_mes['nome'].max()
     df_mes.reset_index(inplace=True)
     
-    print(f"Table 'gold/monthly_data' shape: {df.shape}")
+    print(f"Table 'gold/monthly_data' shape: {df_mes.shape}")
 
     from src.utils import ensure_folder_exists
     folder_path = os.path.join('data','gold')

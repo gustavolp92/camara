@@ -30,11 +30,16 @@ coberta pela franquia do contrato.
 
 
 # PIPELINES LEITURA
-- data config para despesas?
 
 # PIPELINES PROCESSAMENTO
+- **** pegar data de atualização de forma dinamica
+- ** criar campo id em monthly data, concatenando ano_mes e id_deputado
+
+# GITHUB ACTIONS
+- Mudar horario de schedule
 
 # APP
+- ver como subir app no streamlit. ler dados gold de banco
 - colocar checkbox para mes anterior ou mes atual?
 - transformar filtro deputados e tipos de despesa em multiselect, e fazer ajustes no codigo
 
