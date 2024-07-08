@@ -65,8 +65,8 @@ def save_json(data, file_path):
     import json
     from src.utils import ensure_folder_exists
 
-    folder_path = file_path.rsplit('\\', 1)[0]
-    ensure_folder_exists(folder_path)
+    # folder_path = file_path.rsplit('\\', 1)[0]
+    # ensure_folder_exists(folder_path)
 
     with open(file_path, "w") as json_file:
         json.dump(data, json_file)
