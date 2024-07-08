@@ -34,6 +34,7 @@ coberta pela franquia do contrato.
 # PIPELINES PROCESSAMENTO
 - **** pegar data de atualização de forma dinamica
 - ** criar campo id em monthly data, concatenando ano_mes e id_deputado
+- alterar save_json para receber diretorio e nome do arquivo separados. alterar todos os lugares que utilizam funcao.
 - retirar .env
 
 # GITHUB ACTIONS
