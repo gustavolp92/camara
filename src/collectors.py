@@ -38,7 +38,10 @@ def collect_despesas_from_api(id_deputado, ano, mes):
             end_search = 1
 
     print(f"ID:{id_deputado}, {ano}-{str(mes).zfill(2)}: {len(data)} registros")
-
+    
+    if len(data)==0:
+        return
+    
     folder_path = os.path.join("data","raw","despesas", str(id_deputado), str(ano))
     ensure_folder_exists(folder_path)
     file_path = os.path.join(folder_path, f"{str(mes).zfill(2)}.json")
