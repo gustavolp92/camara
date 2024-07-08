@@ -3,12 +3,16 @@ import os
 
 def collect_data_from_api(domain, source_name):
     from src.io import get_config, save_json
+    from src.utils import ensure_folder_exists
 
     config = get_config('src/.env')['data']
     source = config[domain][source_name]
-    file_path = os.path.join(source['destination_path'], f"{source_name}.{source['format']}")
+    folder_path = source['destination_path']
+    file_path = os.path.join(folder_path, f"{source_name}.{source['format']}")
 
     requisicao = requests.get(source['base_link'])
+    
+    ensure_folder_exists(folder_path)
 
     if source['format'] == 'json':
         info = requisicao.json()
