@@ -1,11 +1,12 @@
 import requests
+import os
 
 def collect_data_from_api(domain, source_name):
     from src.io import get_config, save_json
 
     config = get_config('src/.env')['data']
     source = config[domain][source_name]
-    file_path = f"{source['destination_path']}/{source_name}.{source['format']}"
+    file_path = os.path.join(source['destination_path'], f"{source_name}.{source['format']}")
 
     requisicao = requests.get(source['base_link'])
 
@@ -21,7 +22,6 @@ def collect_data_from_api(domain, source_name):
 
 
 def collect_despesas_from_api(id_deputado, ano, mes):
-    import os
     from src.io import save_json
     from src.utils import ensure_folder_exists
     pagina = 1
