@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repo content
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: Setup python
         uses: actions/setup-python@v5
         with:
@@ -22,4 +24,17 @@ jobs:
         # env: 
           # name_env_var: name_env_var
         run: python pipe_data_processing.py
+      - name: Check for changes
+        id: git-check
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add .
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV
+      - name: Commit and push if changes
+        if: env.changes == 'true'
+        run: |
+          git commit -m "updated gold tables"
+          git push
+
 
