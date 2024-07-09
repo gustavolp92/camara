@@ -1,5 +1,6 @@
 # Ignore all files in the data directory
-data/*/*
+data/raw/*
+data/cleansed/*
 
 # Ignore all .env files
 *.env
