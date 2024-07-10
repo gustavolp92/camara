@@ -67,10 +67,17 @@ def process_gold_table():
     from src.utils import ensure_folder_exists
     folder_path = os.path.join('data','gold')
     file_name = 'master_table.parquet'
+    file_path = os.path.join(folder_path, file_name)
     ensure_folder_exists(folder_path)
 
-    df.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config
+    if os.path.exists(file_path): #update specific months in gold
+        list_ano_mes = list(df['ano_mes'].unique())
+        current_gold = pd.read_parquet(file_path)
+        current_gold = current_gold.loc[~current_gold['ano_mes'].isin(list_ano_mes)].copy()
+        df = pd.concat([df, current_gold], axis=0).sort_values('ano_mes').copy()
+        df.reset_index(drop=True, inplace=True)
 
+    df.to_parquet(file_path)
 
 
 def process_gold_monthly_data():
