@@ -1,15 +1,16 @@
 import streamlit as st
 st.set_page_config(layout="wide")
 
+import os
 import pandas as pd
 import plotly.express as px
 from app_visual import calc_avg_spend_from_period, biggest_spenders_per_type
 
 # RETRIEVE DATA
-df = pd.read_parquet('data/gold/master_table.parquet')
+df = pd.read_parquet(os.path.join('data','gold','master_table.parquet'))
 cols = ['ano_mes', 'nome', 'Valor', 'siglaPartido', 'tipoDespesa', 
         'dataDocumento', 'nomeFornecedor', 'cnpjCpfFornecedor', 'codDocumento', 'email', 'siglaUf', 'urlDocumento']
-df_mes = pd.read_parquet('data/gold/monthly_data.parquet')
+df_mes = pd.read_parquet(os.path.join('data','gold','monthly_data.parquet'))
 
 tipo_despesa_simplificado = {
         'COMBUSTÍVEIS E LUBRIFICANTES.': 'Combustíveis e lubrif.',

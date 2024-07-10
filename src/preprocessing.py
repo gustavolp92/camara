@@ -28,7 +28,7 @@ def process_despesas():
     import os
     dfs = []
     for path_deputado in glob.glob(os.path.join("data","raw","despesas", "*")):
-        id_deputado = path_deputado.split("\\")[-1]
+        id_deputado = os.path.basename(path_deputado)
         data_deputado = []
         for file_path in glob.glob(os.path.join(path_deputado, "*", "*.json")):
             with open(file_path, "r") as json_file:
@@ -37,7 +37,7 @@ def process_despesas():
         df_deputado['id_deputado'] = id_deputado
         dfs.append(df_deputado)
 
-    despesas = pd.concat(dfs)    
+    despesas = pd.concat(dfs)
     despesas['dataDocumento'] = pd.to_datetime(despesas['dataDocumento'])
     # despesas['id_deputado'] = despesas['id_deputado'].astype(int)
     despesas[['codDocumento', 'numDocumento', 'cnpjCpfFornecedor', 'codLote']] = despesas[['codDocumento', 'numDocumento', 'cnpjCpfFornecedor', 'codLote']].astype(str)
@@ -57,8 +57,8 @@ def process_despesas():
 
 def process_gold_table():
     import os
-    deputados = pd.read_parquet('data/cleansed/deputados.parquet')
-    despesas = pd.read_parquet('data/cleansed/despesas.parquet')
+    deputados = pd.read_parquet(os.path.join('data','cleansed','deputados.parquet'))
+    despesas = pd.read_parquet(os.path.join('data','cleansed','despesas.parquet'))
 
     df = pd.merge(despesas, deputados, how='left', left_on='id_deputado', right_index=True)
     df['Valor'] = df['valorLiquido'].clip(lower=0)
@@ -69,7 +69,7 @@ def process_gold_table():
     file_name = 'master_table.parquet'
     file_path = os.path.join(folder_path, file_name)
     ensure_folder_exists(folder_path)
-
+    print(df.index)
     if os.path.exists(file_path): #update specific months in gold
         list_ano_mes = list(df['ano_mes'].unique())
         current_gold = pd.read_parquet(file_path)
@@ -82,7 +82,7 @@ def process_gold_table():
 
 def process_gold_monthly_data():
     import os
-    df = pd.read_parquet('data/gold/master_table.parquet')
+    df = pd.read_parquet(os.path.join('data','gold','master_table.parquet'))
     
     group_mes = df.groupby(['ano_mes', 'id_deputado'])
     df_mes = group_mes[['Valor']].sum()
