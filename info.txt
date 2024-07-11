@@ -32,20 +32,30 @@ coberta pela franquia do contrato.
 # PIPELINES LEITURA
 
 # PIPELINES PROCESSAMENTO
-- **** fluxo que le gold atual e substitui apenas novos meses.
-manter fluxo anterior para quando for rodar todo o pipeline?
-ver parte comentada de preprocessing.py -> process_gold_table
-fazer tambem para monthly data
-- criar campo id em monthly data, concatenando ano_mes e id_deputado
 - alterar save_json para receber diretorio e nome do arquivo separados. alterar todos os lugares que utilizam funcao.
 - retirar .env
 
 # GITHUB ACTIONS
-- alterar para subir commit apos final de pipeline com novos dados da gold
-https://www.youtube.com/watch?v=wJ794jLP2Tw&t=1311s
 
 # APP
-- ver como subir app no streamlit. ler dados gold de banco
 - colocar checkbox para mes anterior ou mes atual?
-- transformar filtro deputados e tipos de despesa em multiselect, e fazer ajustes no codigo
+- transformar filtro deputados e tipos de despesa em multiselect, e fazer ajustes no codigo?
+- ** Colocar % gasto por categoria na tabela de gastos do deputado (abaixo de foto).
+- ** colocar todos os processamentos de visualizações do app em funções
+
+- sessao do periodo com mes atual como default.
+grafico barras empilhadas com soma de gastos por deputado e tipo de despesa 
+big numbers: media de gasto por deputado. Media de gasto por tipo de despesa. 
+card pra cada tipo indicando deputado q mais gastou no tipo e valor gasto.
+
+
+# visao deputado
+- obj: explorar mais a fundo as despesas de um deputado específico.
+
+
+# visao histórico
+- comparar quanto gastou com outros meses e outros deputados
+Linha do tempo com gastos de deputado, média de gastos dos deputados nesse mes e nos ultimos 6 meses e média de gastos do próprio deputado nos últimos 6 meses
+- Tabela de gastos
+
 

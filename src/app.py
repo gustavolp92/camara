@@ -76,7 +76,9 @@ with st.container():
     ### RIGHT SIDE ###
     # INFO FOR SPECIFIC 'DEPUTADO'
     df_filt_dep['Categoria'] = df_filt_dep['tipoDespesa'].map(tipo_despesa_simplificado)
-    dep_filt_gastos_por_tipo = df_filt_dep.groupby('Categoria')[['Valor']].sum().round().sort_values('Valor',ascending=False)
+    dep_filt_gastos_por_tipo = df_filt_dep.groupby('Categoria')[['Valor']].sum().round()
+    dep_filt_gastos_por_tipo['%'] = round(100*(dep_filt_gastos_por_tipo['Valor'] / dep_filt_gastos_por_tipo['Valor'].sum()),1)
+    dep_filt_gastos_por_tipo.sort_values(by='Valor',ascending=False, inplace=True)
     foto_dep = df_filt_dep['urlFoto'].unique()[0]
     page_col[1].write(f"**{df_filt_dep['nome'].unique()[0]}**")
     page_col[1].image(foto_dep, width=100, caption=f"Total gasto: R${round(df_filt_dep['Valor'].sum())}")
