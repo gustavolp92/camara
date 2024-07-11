@@ -12,7 +12,7 @@ id_deputados_to_fetch = [220526, 178873, 220527, 220530, 160517,
 start_date, end_date = get_start_end_dates()
 
 
-update_tables = dict(despesas=True, deputados=True)
+update_tables = dict(despesas=True, deputados=False)
 
 t0 = time.time()
 pipeline_data_collection(update_tables, id_deputados_to_fetch, start_date, end_date)
@@ -20,8 +20,6 @@ t1 = time.time()
 
 print(f"# Finished data collection in {round(t1 - t0, 1)} seconds\n")
 
-
-update_tables = dict(despesas=True, deputados=True)
 
 t0 = time.time()
 pipeline_data_processing(update_tables)

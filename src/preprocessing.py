@@ -16,7 +16,9 @@ def process_deputados():
     ensure_folder_exists(folder_path)
 
     print(f"Table 'cleansed/deputados' shape: {deputados.shape}")
-    deputados.to_parquet(os.path.join(folder_path, file_name)) #TODO path in config, function to save and ensure folder exists
+    deputados.to_parquet(os.path.join(folder_path, file_name))
+    # save also in gold
+    deputados.to_parquet(os.path.join(os.path.join('data','gold'), file_name))
 
 
 
@@ -57,7 +59,7 @@ def process_despesas():
 
 def process_gold_table():
     import os
-    deputados = pd.read_parquet(os.path.join('data','cleansed','deputados.parquet'))
+    deputados = pd.read_parquet(os.path.join('data','gold','deputados.parquet'))
     despesas = pd.read_parquet(os.path.join('data','cleansed','despesas.parquet'))
 
     df = pd.merge(despesas, deputados, how='left', left_on='id_deputado', right_index=True)
