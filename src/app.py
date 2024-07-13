@@ -9,9 +9,9 @@ from app_visual import (calc_avg_spend_from_period, biggest_spenders_per_type,
 
 # RETRIEVE DATA
 df = pd.read_parquet(os.path.join('data','gold','master_table.parquet'))
-cols = ['ano_mes', 'nome', 'Valor', 'siglaPartido', 'tipoDespesa', 
-        'dataDocumento', 'nomeFornecedor', 'cnpjCpfFornecedor', 'codDocumento', 'email', 'siglaUf', 'urlDocumento']
 df_mes = pd.read_parquet(os.path.join('data','gold','monthly_data.parquet'))
+
+cols = ['ano_mes', 'nome', 'Valor', 'siglaPartido', 'tipoDespesa', 'dataDocumento', 'nomeFornecedor', 'cnpjCpfFornecedor', 'codDocumento', 'email', 'siglaUf', 'urlDocumento']
 
 tipo_despesa_simplificado = {
         'COMBUSTÍVEIS E LUBRIFICANTES.': 'Combustíveis e lubrif.',
@@ -83,8 +83,8 @@ with st.container():
 # DISPLAY 2nd row
 with st.container():
     page_col = st.columns([0.65,0.35])
-    fig = px.line(df_mes, x='ano_mes', y='Valor', color='Deputado', markers=True, 
-                  title = 'Histórico de Gastos Mensais por Deputado')
+
+    fig = px.line(df_mes, x='ano_mes', y='Valor', color='Deputado', markers=True, title = 'Histórico de Gastos Mensais por Deputado')
     page_col[0].plotly_chart(fig)
 
     
@@ -93,5 +93,7 @@ with st.container():
     page_col[1].write("**Maior Gasto por Categoria no período**")
     page_col[1].dataframe(biggest_spenders)
 
+
+# DISPLAY 3rd row
 st.write('**Tabela de despesas**')
 st.dataframe(df_filt[cols].head(100), hide_index=True, height=300)
